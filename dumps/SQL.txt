@@ -1,0 +1,133 @@
+
+
+CREATE TABLE users
+(
+  user_id INT NOT NULL,
+  user_username VARCHAR(20) NOT NULL,
+  user_password VARCHAR(20) NOT NULL,
+  user_ifAdmin BOOLEAN NOT NULL,
+  PRIMARY KEY (user_id),
+  UNIQUE (user_username)
+);
+
+CREATE TABLE clients
+(
+  client_id INT NOT NULL,
+  client_lastname VARCHAR(50) NOT NULL,
+  client_firstname VARCHAR(50) NOT NULL,
+  client_nationality VARCHAR(25) NOT NULL,
+  client_birthdate DATE NOT NULL,
+  client_gender VARCHAR(15) NOT NULL,
+  client_company VARCHAR(50) NOT NULL,
+  client_position VARCHAR(25) NOT NULL,
+  client_alias VARCHAR(25) NOT NULL,
+  client_contact INT NOT NULL,
+  client_email VARCHAR(70) NOT NULL,
+  PRIMARY KEY (client_id)
+);
+
+CREATE TABLE transactions
+(
+  trans_passportNo VARCHAR(30) NOT NULL,
+  trans_visaType VARCHAR(30) NOT NULL,
+  trans_tinID VARCHAR(30) NOT NULL,
+  trans_visaStartDate DATE NOT NULL,
+  trans_visaEndDate DATE NOT NULL,
+  trans_permitType VARCHAR(30) NOT NULL,
+  trans_permitStartDate DATE NOT NULL,
+  trans_permitEndDate DATE NOT NULL,
+  trans_aepID VARCHAR(30) NOT NULL,
+  trans_aepStartDate DATE NOT NULL,
+  trans_aepEndDate DATE NOT NULL,
+  trans_transId INT NOT NULL,
+  client_id INT NOT NULL,
+  PRIMARY KEY (trans_transId),
+  FOREIGN KEY (client_id) REFERENCES clients(client_id)
+);
+
+CREATE TABLE status_permits
+(
+  statusP_dateReceived DATE NOT NULL,
+  statusP_instructions VARCHAR(100) NOT NULL,
+  statusP_aepCancellation VARCHAR(70) NOT NULL,
+  statusP_downgrading VARCHAR(70) NOT NULL,
+  statusP_aepExitClearance VARCHAR(70) NOT NULL,
+  statusP_updatedVisaExtend VARCHAR(70) NOT NULL,
+  statusP_documentation VARCHAR(70) NOT NULL,
+  statusP_addRequirements INT NOT NULL,
+  statusP_aepDateFiled DATE NOT NULL,
+  statusP_aepDateRelease DATE NOT NULL,
+  statusP_permitDateFiled DATE NOT NULL,
+  statusP_acrIcard VARCHAR(70) NOT NULL,
+  statusP_permitDateReleased DATE NOT NULL,
+  client_id INT NOT NULL,
+  FOREIGN KEY (client_id) REFERENCES clients(client_id)
+);
+
+CREATE TABLE status_visa
+(
+  statusV_documentation VARCHAR(70) NOT NULL,
+  statusV_dateFiled DATE NOT NULL,
+  statusV_immigrant VARCHAR(70) NOT NULL,
+  statusV_hearingDate DATE NOT NULL,
+  statusV_earlyHearing DATE NOT NULL,
+  statusV_agenda VARCHAR(70) NOT NULL,
+  statusV_visaReleased VARCHAR(70) NOT NULL,
+  statusV_waiverECC VARCHAR(70) NOT NULL,
+  statusV_acrIcard VARCHAR(70) NOT NULL,
+  statusV_docComplete VARCHAR(70) NOT NULL,
+  client_id INT NOT NULL,
+  FOREIGN KEY (client_id) REFERENCES clients(client_id)
+);
+
+CREATE TABLE remarks
+(
+  remarks_dateReceived DATE NOT NULL,
+  remarks_dateUpdated DATE NOT NULL,
+  remarks_reminders VARCHAR(50) NOT NULL,
+  remarks_toDo VARCHAR(50) NOT NULL,
+  remarks_transaction VARCHAR(50) NOT NULL,
+  client_id INT NOT NULL,
+  FOREIGN KEY (client_id) REFERENCES clients(client_id)
+);
+
+CREATE TABLE activity_history
+(
+  act_activityID INT NOT NULL,
+  act_passportNo INT NOT NULL,
+  act_tinID INT NOT NULL,
+  act_aepID INT NOT NULL,
+  act_visaType INT NOT NULL,
+  act_visaStartDate INT NOT NULL,
+  act_visaEndDate INT NOT NULL,
+  act_permitType INT NOT NULL,
+  act_permitStartDate INT NOT NULL,
+  act_permitEndDate INT NOT NULL,
+  act_aepStartDate INT NOT NULL,
+  act_aepEndDate INT NOT NULL,
+  act_loginTimestamp DATE NOT NULL,
+  act_logoutTimestamp DATE NOT NULL,
+  act_reportTimestamp INT NOT NULL,
+  user_id INT NOT NULL,
+  client_id INT NOT NULL,
+  PRIMARY KEY (act_activityID),
+  FOREIGN KEY (user_id) REFERENCES users(user_id),
+  FOREIGN KEY (client_id) REFERENCES clients(client_id)
+);
+
+CREATE TABLE employees
+(
+  emp_lastname VARCHAR(50) NOT NULL,
+  emp_firstname VARCHAR(50) NOT NULL,
+  emp_position VARCHAR(25) NOT NULL,
+  emp_gender VARCHAR(15) NOT NULL,
+  emp_birthdate DATE NOT NULL,
+  emp_address VARCHAR(50) NOT NULL,
+  emp_contact INT NOT NULL,
+  emp_email VARCHAR(70) NOT NULL,
+  user_id INT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES users(user_id),
+  UNIQUE (emp_email),
+  UNIQUE (user_id)
+);
+
