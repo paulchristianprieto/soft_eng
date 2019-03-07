@@ -532,6 +532,7 @@ public class Tables extends JFrame{
 		tables_inputPanel.add(lblClientTransaction);
 		
 		JButton tables_registerBtn = new JButton("Register Info");
+		
 		tables_registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Connection conn2;
